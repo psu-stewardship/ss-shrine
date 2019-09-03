@@ -2,4 +2,5 @@
 
 class Member < ApplicationRecord
   belongs_to :work
+  include Shrine::Attachment.new(:file)
 end
