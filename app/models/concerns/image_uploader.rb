@@ -4,29 +4,26 @@ require 'mini_magick'
 require 'image_processing/mini_magick'
 
 class ImageUploader < Shrine
-  plugin :processing
-  plugin :versions
+  plugin :derivatives
   plugin :add_metadata
 
-  process(:store) do |io, _context|
-    versions = { original: io }
+  Attacher.derivatives_processor :thumbnails do |original|
+    processor = ImageProcessing::MiniMagick.source(original)
 
-    io.download do |original|
-      pipeline = ImageProcessing::MiniMagick.source(original)
-
-      versions[:large]  = pipeline.resize_to_limit!(800, 800)
-      versions[:medium] = pipeline.resize_to_limit!(500, 500)
-      versions[:small]  = pipeline.resize_to_limit!(300, 300)
-    end
-
-    versions
+    {
+      small: processor.resize_to_limit!(300, 300),
+      medium: processor.resize_to_limit!(500, 500),
+      large: processor.resize_to_limit!(800, 800)
+    }
   end
 
-  add_metadata :exif do |io, _context|
-    Shrine.with_file(io) do |file|
-      MiniMagick::Image.new(file.path).exif
-    rescue MiniMagick::Error
-      Rails.logger.warn("#{file.path} is not a valid image")
+  add_metadata :exif do |io, context|
+    if context[:derivative].blank?
+      Shrine.with_file(io) do |file|
+        MiniMagick::Image.new(file.path).exif
+      rescue MiniMagick::Error
+        Rails.logger.warn("#{file.path} is not a valid image")
+      end
     end
   end
 end

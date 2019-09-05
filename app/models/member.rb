@@ -2,5 +2,5 @@
 
 class Member < ApplicationRecord
   belongs_to :work
-  include ImageUploader[:file]
+  include ImageUploader::Attachment(:file)
 end
