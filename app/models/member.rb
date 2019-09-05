@@ -2,5 +2,5 @@
 
 class Member < ApplicationRecord
   belongs_to :work
-  include Shrine::Attachment.new(:file)
+  include ImageUploader[:file]
 end
