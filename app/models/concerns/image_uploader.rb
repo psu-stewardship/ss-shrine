@@ -4,7 +4,7 @@ require 'mini_magick'
 require 'image_processing/mini_magick'
 
 class ImageUploader < Shrine
-  plugin :derivatives
+  plugin :derivatives, storage: :derivatives
   plugin :add_metadata
 
   Attacher.derivatives_processor :thumbnails do |original|

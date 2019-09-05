@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'shrine/storage/s3'
+require 'shrine/storage/file_system'
 
 s3_options = {
   bucket: ENV['aws_bucket'],
@@ -10,8 +11,9 @@ s3_options = {
 }
 
 Shrine.storages = {
-  cache: Shrine::Storage::S3.new(prefix: 'cache', **s3_options),
-  store: Shrine::Storage::S3.new(**s3_options)
+  cache: Shrine::Storage::FileSystem.new('tmp', prefix: 'storage/cache'),
+  store: Shrine::Storage::S3.new(**s3_options),
+  derivatives: Shrine::Storage::FileSystem.new('tmp', prefix: 'storage/derivatives')
 }
 
 Shrine.plugin :activerecord
