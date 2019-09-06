@@ -1,0 +1,11 @@
+aws_bucket:            "psu.edu.scholarsphere-shrine"
+aws_access_key_id:     "key"
+aws_secret_access_key: "secret"
+aws_region:            "us-east-1"
+POSTGRES_USER:         "username"
+
+development:
+  POSTGRES_DB: "ss-shrine_development"
+
+test:
+  POSTGRES_DB: "ss-shrine_test"
