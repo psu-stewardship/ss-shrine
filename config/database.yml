@@ -82,5 +82,3 @@ test:
 production:
   <<: *default
   database: ss-shrine_production
-  username: ss-shrine
-  password: <%= ENV['SS-SHRINE_DATABASE_PASSWORD'] %>
