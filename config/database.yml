@@ -24,7 +24,10 @@ default: &default
 
 development:
   <<: *default
-  database: ss-shrine_development
+  database: <%= ENV.fetch("POSTGRES_DB") %>
+  username: <%= ENV.fetch("POSTGRES_USER") %>
+  host: <%= ENV.fetch("POSTGRES_HOST") %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
