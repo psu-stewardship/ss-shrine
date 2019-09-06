@@ -1,0 +1,38 @@
+version: '3.2'
+services:
+  db:
+    environment:
+      POSTGRES_PASSWORD: shrinedemo
+      POSTGRES_USER: shrinedemo
+      POSTGRES_DB: shrinedemo
+    image: postgres:10
+    ports:
+    - "5432:5432"
+    volumes:
+    - db-data:/var/lib/postgresql/data
+  web:
+    env_file: s3.env
+    environment:
+      RAILS_ENV: development
+      POSTGRES_USER: shrinedemo
+      POSTGRES_HOST: db
+      POSTGRES_DB: shrinedemo
+      POSTGRES_PASSWORD: shrinedemo
+    build: .
+    command: >
+      sh -c "echo starting database migrations &&
+            rails db:migrate &&
+            echo starting rails &&
+            rails s -b 0.0.0.0"
+    volumes:
+      - type: bind
+        source: ./app/
+        target: /app/app
+        consistency: cached
+    ports:
+    - "3000:3000"
+    depends_on:
+    - db
+
+volumes:
+  db-data:
