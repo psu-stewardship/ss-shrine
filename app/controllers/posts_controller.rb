@@ -24,7 +24,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    create_post
+    @post = Post.new(post_params)
 
     respond_to do |format|
       if @post.save
@@ -71,11 +71,5 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.fetch(:post, {}).permit(:title, :file)
-    end
-
-    def create_post
-      @post = Post.create(post_params)
-      CreateDerivatives.perform_later(@post.id)
-      @post
     end
 end

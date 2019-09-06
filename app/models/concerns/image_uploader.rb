@@ -9,7 +9,7 @@ class ImageUploader < Shrine
   plugin :backgrounding
 
   # PromoteJob takes the file from the cache store and uploads or "promotes" it to S3 storage
-  Attacher.promote_block { PromoteJob.perform_later(record: record.id, name: name.to_s, file_data: file_data) }
+  Attacher.promote_block { PromoteJob.perform_later(record: record, name: name.to_s, file_data: file_data) }
 
   Attacher.derivatives_processor :thumbnails do |original|
     processor = ImageProcessing::MiniMagick.source(original)
