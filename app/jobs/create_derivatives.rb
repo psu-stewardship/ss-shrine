@@ -4,8 +4,8 @@ class CreateDerivatives < ApplicationJob
   queue_as :default
 
   def perform(record)
-    member = Member.find(record)
-    member.file_derivatives!(:thumbnails)
-    member.save
+    post = Post.find(record)
+    post.file_derivatives!(:thumbnails)
+    post.save
   end
 end
