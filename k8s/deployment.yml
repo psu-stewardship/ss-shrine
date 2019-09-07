@@ -20,14 +20,14 @@ spec:
       - name: ss-shrine
         env:
           - name: RAILS_LOG_TO_STDOUT
-            value: true
+            value: "true"
           - name: RAILS_SERVE_STATIC_FILES
-            value: true
+            value: "true"
         envFrom:
         - secretRef:
             name: ss-shrine
         imagePullPolicy: Always
-        image: "harbor.dsrd.libraries.psu.edu/library/ss-shrine:latest"
+        image: "harbor.dsrd.libraries.psu.edu/library/ss-shrine:2"
         ports:
         - containerPort: 3000
         # livenessProbe:
