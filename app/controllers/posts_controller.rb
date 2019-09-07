@@ -11,7 +11,12 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   # GET /posts/1.json
-  def show; end
+  def show
+    s3 = Shrine.storages[:store]
+    file_data = JSON.parse(@post.file_data)
+    @image_url = s3.url(file_data['id'])
+  end
+
 
   # GET /posts/new
   def new
