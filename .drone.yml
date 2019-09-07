@@ -1,0 +1,42 @@
+---
+kind: pipeline
+name: default
+
+steps:
+- name: build
+  image: docker
+  environment:
+    SSH_PRIVATE_KEY:
+      from_secret: SSH_PRIVATE_KEY
+    DOCKER_PASSWORD:
+      from_secret: DOCKER_PASSWORD
+  commands:
+    - export DOCKER_HOST=unix:///var/run/host.sock
+    - docker login -u 'robot$drone' -p $DOCKER_PASSWORD harbor.dsrd.libraries.psu.edu
+    - docker build -t harbor.dsrd.libraries.psu.edu/library/ss-shrine:$DRONE_BUILD_NUMBER . 
+    - docker tag harbor.dsrd.libraries.psu.edu/library/ss-shrine:$DRONE_BUILD_NUMBER harbor.dsrd.libraries.psu.edu/library/ss-shrine:ci
+    - docker push harbor.dsrd.libraries.psu.edu/library/ss-shrine:$DRONE_BUILD_NUMBER 
+  volumes:
+  - name: docker-sock
+    path: /var/run/host.sock
+
+# - name: test
+#   image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:ci
+#   environment:
+#     RAILS_ENV: test
+#     POSTGRES_PASSWORD: ss-shrine-test
+#     POSTGRES_USER: ss-shrine
+#     POSTGRES_DB: ss-shrine
+
+services:
+- name: postgres
+  image: postgres:10
+  environment:
+    POSTGRES_PASSWORD: ss-shrine-test
+    POSTGRES_USER: ss-shrine
+    POSTGRES_DB: ss-shrine
+  
+volumes:
+- name: docker-sock
+  host:
+    path: /var/run/docker.sock
