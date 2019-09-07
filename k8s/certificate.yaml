@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  labels:
+    app.kubernetes.io/instance: ss-shrine
+  name: ss-shrine.dsrd.libraries.psu.edu
+  namespace: ss-shrine
+spec:
+  acme:
+    config:
+    - dns01:
+        provider: route53
+      domains:
+      - ss-shrine.dsrd.libraries.psu.edu
+  commonName: ss-shrine.dsrd.libraries.psu.edu
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod-route53
+  secretName: ss-shrine-dsrd-libraries-psu-edu

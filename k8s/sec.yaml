@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+data:
+  aws_bucket: cHN1LmxpYnJhcmllcy5yZWZhY3RvcmluZy50ZXN0
+  aws_access_key_id: IEFLSUFVTlZKNzM2U1lSN1lYUUVW
+  aws_secret_access_key: UzR2eFlYdEhDT01JTGJzUEtEc0J2Ukd3ZDBhcGllVkZra0tLL1Rjag==
+  aws_region: dXMtZWFzdC0x
+  RAILS_ENV: cHJvZHVjdGlvbg==
+  SECRET_KEY_BASE: ZmMyODVjMmM1Y2ZkMGMwYzA5ZGFkM2EyOTcyNzU2MGQ2YmZkNTA0NzE0MWQzOWFjZjFmMzNkOTY4MjAwNTRjOTg4MjM0ZDU2NzYwYzhiMTlhOTc4ZTM2YzYwNmE4NjI3YTY2NDUxNDk5ZTA2OGE2ZDgwZTA5MjE3MjNiYzJmM2I=
+  POSTGRES_PASSWORD: c2hyaW5lZGVtbw==
+  POSTGRES_USER: c2hyaW5lZGVtbw==
+  POSTGRES_DB: c2hyaW5lZGVtbw==
+  POSTGRES_HOST: c3Mtc2hyaW5lLXBn
+kind: Secret
+metadata:
+  name: ss-shrine
+  namespace: ss-shrine
+type: Opaque

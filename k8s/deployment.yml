@@ -1,0 +1,40 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ss-shrine
+  labels:
+    app: ss-shrine
+    ref: develop
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ss-shrine
+        ref: "develop"
+    spec:
+      imagePullSecrets:
+         - name: harbor-dsrd-libraries
+      containers:
+      - name: ss-shrine
+        env:
+          - name: RAILS_LOG_TO_STDOUT
+            value: true
+          - name: RAILS_SERVE_STATIC_FILES
+            value: true
+        envFrom:
+        - secretRef:
+            name: ss-shrine
+        imagePullPolicy: Always
+        image: "harbor.dsrd.libraries.psu.edu/library/ss-shrine:latest"
+        ports:
+        - containerPort: 3000
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 3000
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 3000
