@@ -22,3 +22,10 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+* Local development (OS X)
+```bash 
+brew cask install docker 
+
+docker-compose build
+```
