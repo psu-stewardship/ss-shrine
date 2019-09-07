@@ -27,7 +27,7 @@ steps:
       exclude:
       - pull_request
   commands:
-  - 'sed -i "/^image:.*/image: harbor.dsrd.libraries.psu.edu\/library\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/deployment.yml'
+  - 'sed -i "s/^image:.*/image: harbor.dsrd.libraries.psu.edu\/library\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/deployment.yml'
   - git config user.email "drone@drone2test.vmhost.psu.edu"
   - git config user.name "DroneCI"
   - git add k8s/deployment.yml
