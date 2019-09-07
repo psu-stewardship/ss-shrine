@@ -20,27 +20,19 @@ steps:
   - name: docker-sock
     path: /var/run/host.sock
 
-# - name: test
-#   image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:ci
-#   environment:
-#     RAILS_ENV: test
-#     POSTGRES_PASSWORD: ss-shrine-test
-#     POSTGRES_USER: ss-shrine
-#     POSTGRES_DB: ss-shrine
-
-  - name: tag
-    image: alpine/git
-    when:
-      event:
-        exclude:
-        - pull_request
-    commands:
-    - 'sed -i "/^image:.*/image: harbor.dsrd.libraries.psu.edu\/library\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/deployment.yaml'
-    - git config user.email "drone@drone2test.vmhost.psu.edu"
-    - git config user.name "DroneCI"
-    - git add k8s/deployment.yaml
-    - git commit -m "[skip ci] adds $DRONE_BUILD_NUMBER"
-    - git push -u origin $DRONE_BRANCH
+- name: tag
+  image: alpine/git
+  when:
+    event:
+      exclude:
+      - pull_request
+  commands:
+  - 'sed -i "/^image:.*/image: harbor.dsrd.libraries.psu.edu\/library\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/deployment.yaml'
+  - git config user.email "drone@drone2test.vmhost.psu.edu"
+  - git config user.name "DroneCI"
+  - git add k8s/deployment.yaml
+  - git commit -m "[skip ci] adds $DRONE_BUILD_NUMBER"
+  - git push -u origin $DRONE_BRANCH
 
 services:
 - name: postgres
