@@ -14,7 +14,7 @@ class PostsController < ApplicationController
   def show
     s3 = Shrine.storages[:store]
     file_data = JSON.parse(@post.file_data)
-    @image_url = s3.url(file_data['id'])
+    @image_url = s3.url(file_data['id'], expires_in: 30)
   end
 
 
