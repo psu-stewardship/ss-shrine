@@ -13,7 +13,8 @@ s3_options = {
 Shrine.storages = {
   cache: Shrine::Storage::FileSystem.new('tmp', prefix: 'storage/cache'),
   store: Shrine::Storage::S3.new(**s3_options),
-  derivatives: Shrine::Storage::FileSystem.new('tmp', prefix: 'storage/derivatives')
+  derivatives: Shrine::Storage::S3.new(prefix: 'derivatives', **s3_options)
+  # derivatives: Shrine::Storage::FileSystem.new('tmp', prefix: 'storage/derivatives')
 }
 
 Shrine.plugin :activerecord
