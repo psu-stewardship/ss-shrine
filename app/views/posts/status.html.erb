@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @post.title %> is processing...</h1>
+
+<div data-controller="status"
+     data-status-url="<%= status_post_path(@post, format: :json) %>"
+     data-status-parent-url="<%= post_path(@post) %>"
+     data-status-refresh-interval="1000">
+
+</div>
+
+<%= link_to 'Back', posts_path %>
+

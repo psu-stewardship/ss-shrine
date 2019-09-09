@@ -11,7 +11,9 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   # GET /posts/1.json
-  def show; end
+  def show
+    redirect_to status_post_path(@post) unless PostStatus.new(@post).completed?
+  end
 
   # GET /posts/new
   def new
@@ -63,6 +65,12 @@ class PostsController < ApplicationController
 
   def status
     @status = PostStatus.new(@post)
+    respond_to do |format|
+      format.html do
+        redirect_to @post if @status.completed?
+      end
+      format.json {}
+    end
   end
 
   private
