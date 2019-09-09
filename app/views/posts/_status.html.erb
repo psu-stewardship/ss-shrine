@@ -1,0 +1,9 @@
+<div id="status-inner" data-completed="<%= status.completed? %>">
+  <p><strong>Promoted:</strong> <%= status.promoted? %></p>
+  <p><strong>Derived:</strong> <%= status.derived? %></p>
+
+  <% if status.completed? %>
+    <p>Great success!</p>
+    <p><%= link_to "Click Here", status.post %> to see the post, but if we were real developers we'd make this a js countdown redirect </p>
+  <% end %>
+</div>
