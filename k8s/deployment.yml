@@ -27,7 +27,7 @@ spec:
         - secretRef:
             name: ss-shrine
         imagePullPolicy: Always
-        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:36
+        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:39
         ports:
         - containerPort: 3000
         # livenessProbe:
