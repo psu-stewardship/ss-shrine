@@ -70,8 +70,9 @@ function fileUpload(fileInput) {
     return uppy
   }
 
-  document.querySelector('.upload-submit').style.visibility='hidden';
   
   document.querySelectorAll('.upload-file').forEach(function (fileInput) {
     fileUpload(fileInput)
   })
+
+  document.querySelector('.upload-submit').style.visibility='hidden';
