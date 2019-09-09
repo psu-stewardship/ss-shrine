@@ -3,6 +3,8 @@
 require 'shrine/storage/s3'
 require 'shrine/storage/file_system'
 
+PROMOTION_LOCATION = 'store'
+
 s3_options = {
   bucket: ENV['aws_bucket'],
   access_key_id: ENV['aws_access_key_id'],
@@ -12,7 +14,7 @@ s3_options = {
 
 Shrine.storages = {
   cache: Shrine::Storage::FileSystem.new('tmp', prefix: 'storage/cache'),
-  store: Shrine::Storage::S3.new(**s3_options),
+  ::PROMOTION_LOCATION.to_sym => Shrine::Storage::S3.new(**s3_options),
   derivatives: Shrine::Storage::FileSystem.new('tmp', prefix: 'storage/derivatives')
 }
 
