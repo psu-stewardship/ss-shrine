@@ -31,7 +31,7 @@ function fileUpload(fileInput) {
         allowMultipleUploads: false,
       })
       .use(Uppy.FileInput, {
-        target: formGroup,
+        target: fileInput.parentNode,
         pretty: false,
       })
       .use(Uppy.Informer, {
