@@ -1,5 +1,17 @@
 version: '3.2'
 services:
+  minio:
+    command: '--compat server --address ":9001" /data'
+    environment:
+      CREATE_BUCKET: shrine
+      MINIO_ACCESS_KEY: foobarfoobar
+      MINIO_SECRET_KEY: foobarfoobar
+    image: minio/minio:latest
+    volumes:
+    - minio:/data
+    ports:
+    # my vscode gobbles up port 9000
+    - "9001:9001"
   db:
     environment:
       POSTGRES_PASSWORD: shrinedemo
@@ -13,21 +25,24 @@ services:
   web:
     env_file: s3.env
     environment:
+      RAILS_SERVE_STATIC_FILES: "true"
       RAILS_ENV: development
+      RAILS_LOG_TO_STDOUT: "true"
       POSTGRES_USER: shrinedemo
       POSTGRES_HOST: db
       POSTGRES_DB: shrinedemo
       POSTGRES_PASSWORD: shrinedemo
     build: .
     command: >
-      sh -c "echo starting database migrations &&
+      sh -c "rm tmp/pids/server.pid && 
+            echo starting database migrations &&
             rails db:migrate &&
             echo starting rails &&
             rails s -b 0.0.0.0"
     volumes:
       - type: bind
-        source: ./app/
-        target: /app/app
+        source: .
+        target: /app
         consistency: cached
     ports:
     - "3000:3000"
@@ -35,4 +50,5 @@ services:
     - db
 
 volumes:
+  minio:
   db-data:
