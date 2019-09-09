@@ -27,15 +27,18 @@ function fileUpload(fileInput) {
     var uppy = Uppy.Core({
         id: fileInput.id,
         autoProceed: true,
+        allowMultipleUploads: false,
       })
-      .use(Uppy.DragDrop, {
+      .use(Uppy.FileInput, {
         target: fileInput.parentNode,
+        pretty: false,
       })
       .use(Uppy.Informer, {
         target: fileInput.parentNode,
       })
       .use(Uppy.StatusBar, {
         target: imagePreview.parentNode,
+        hideAfterFinish: false,
       })
     //   .use(Uppy.ThumbnailGenerator, {
     //     thumbnailWidth: 400,
