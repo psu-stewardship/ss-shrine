@@ -20,6 +20,8 @@ RUN . $NVM_DIR/nvm.sh \
 RUN npm install -g yarn
 
 COPY Gemfile Gemfile.lock /app/
+COPY package.json yarn.lock /app/
+RUN yarn
 
 RUN gem install bundler
 
