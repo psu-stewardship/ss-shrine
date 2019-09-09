@@ -21,7 +21,10 @@
 
 function fileUpload(fileInput) {
     var imagePreview = document.querySelector('.upload-preview')
-  
+    var formGroup    = fileInput.parentNode
+
+    formGroup.removeChild(fileInput)
+
     fileInput.style.display = 'none' // uppy will add its own file input
   
     var uppy = Uppy.Core({
