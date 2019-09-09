@@ -75,4 +75,4 @@ function fileUpload(fileInput) {
     fileUpload(fileInput)
   })
 
-  document.querySelector('.upload-submit').style.visibility='hidden';
+//   document.querySelector('.upload-submit').style.visibility='hidden';
