@@ -6,11 +6,14 @@ require 'shrine/storage/file_system'
 s3_options = {
   bucket: ENV['aws_bucket'],
   access_key_id: ENV['aws_access_key_id'],
-  # endpoint: ENV['aws_endpoint'],
-  # force_path_style: true,
   secret_access_key: ENV['aws_secret_access_key'],
   region: ENV['aws_region']
 }
+
+if ENV['s3_endpoint']
+  s3_options[:endpoint] = ENV['s3_endpoint']
+  s3_options[:force_path_style] = true
+end
 
 
 Shrine.storages = {
