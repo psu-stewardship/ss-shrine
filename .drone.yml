@@ -5,6 +5,9 @@ name: default
 steps:
 - name: build
   image: docker
+  when:
+    branch:
+    - master
   environment:
     SSH_PRIVATE_KEY:
       from_secret: SSH_PRIVATE_KEY
@@ -23,9 +26,8 @@ steps:
 - name: tag
   image: alpine/git
   when:
-    event:
-      exclude:
-      - pull_request
+    branch:
+    - master
   commands:
   - 'sed -i "s/image:.*/image: harbor.dsrd.libraries.psu.edu\\/library\\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/deployment.yml'
   - 'sed -i "s/image:.*/image: harbor.dsrd.libraries.psu.edu\\/library\\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/sidekiq.yml'
@@ -39,6 +41,9 @@ steps:
 services:
 - name: postgres
   image: postgres:10
+  when:
+    branch:
+    - master
   environment:
     POSTGRES_PASSWORD: ss-shrine-test
     POSTGRES_USER: ss-shrine
