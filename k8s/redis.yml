@@ -55,5 +55,3 @@ spec:
           #     port: http
           resources:
             {}
-
-      serviceAccountName: "ss-shrine-redis"

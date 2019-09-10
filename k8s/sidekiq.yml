@@ -27,9 +27,12 @@ spec:
         - secretRef:
             name: ss-shrine
         imagePullPolicy: Always
-        command: ["sh"]
+        command: 
+          - /bin/sh
+          - -c
+          - |
+            bundle exec sidekiq
         image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:54
-        args: ["-c", "bundle", "exec", "sidekiq"]
         ports:
         - containerPort: 3000
         # livenessProbe:
