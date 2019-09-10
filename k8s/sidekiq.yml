@@ -1,0 +1,45 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ss-shrine-sidekiq
+  labels:
+    app: ss-shrine-sidekiq
+    ref: develop
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ss-shrine-sidekiq
+        ref: "develop"
+    spec:
+      imagePullSecrets:
+         - name: harbor-dsrd-libraries
+      containers:
+      - name: ss-shrine-sidekiq
+        env:
+          - name: RAILS_LOG_TO_STDOUT
+            value: "true"
+          - name: RAILS_SERVE_STATIC_FILES
+            value: "true"
+        envFrom:
+        - secretRef:
+            name: ss-shrine
+        imagePullPolicy: Always
+        command: 
+          - /bin/sh
+          - -c
+          - |
+            bundle exec sidekiq
+        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:66
+        ports:
+        - containerPort: 3000
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 3000
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 3000

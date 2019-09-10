@@ -19,6 +19,8 @@ class ImageUploader < Shrine
       medium: processor.resize_to_limit!(500, 500),
       large: processor.resize_to_limit!(800, 800)
     }
+  rescue
+    Rails.logger.warn("#{original} is not an image. skipping derivatives_proccessor")
   end
 
   add_metadata :exif do |io, context|

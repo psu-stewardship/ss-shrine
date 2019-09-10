@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/instance: ss-shrine
+    app.kubernetes.io/name: postgres
+  name: ss-srhine-pg
+  namespace: ss-shrine
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgres
+  serviceName: ss-shrine-pg
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: ss-shrine
+        app.kubernetes.io/name: postgres
+    spec:
+      containers:
+      - envFrom:
+        - secretRef:
+            name: ss-shrine
+        image: postgres:10
+        imagePullPolicy: IfNotPresent
+        name: postgres
+        ports:
+        - containerPort: 5432
+          name: postgres
+          protocol: TCP
+        resources: {}
+        # volumeMounts:
+        # - mountPath: /secrets/
+        #   name: shared-data
+        # - mountPath: /var/lib/mysql
+        #   name: data
+  # volumeClaimTemplates:
+  # - metadata:
+  #     creationTimestamp: null
+  #     labels:
+  #       app: mariadb
+  #       component: master
+  #       heritage: Tiller
+  #       release: etda-workflow-develop
+  #     name: data
+  #   spec:
+  #     accessModes:
+  #     - ReadWriteOnce
+  #     resources:
+  #       requests:
+  #         storage: 8Gi
+  #     storageClassName: nfs-client
+  #     volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: ss-shrine
+    app.kubernetes.io/name: postgres
+  name: ss-shrine-pg
+  namespace: ss-shrine
+spec:
+  ports:
+  - name: postgres
+    port: 5432
+    protocol: TCP
+    targetPort: postgres
+  selector:
+    app.kubernetes.io/instance: ss-shrine
+    app.kubernetes.io/name: postgres

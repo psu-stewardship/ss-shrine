@@ -1,0 +1,21 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ss-shrine
+  labels:
+    app: ss-shrine
+    ref: develop
+spec:
+  tls:
+    - secretName: ss-shrine-dsrd-libraries-psu-edu
+      hosts:
+        - ss-shrine.dsrd.libraries.psu.edu
+  rules:
+    - host: ss-shrine.dsrd.libraries.psu.edu
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ss-shrine
+              servicePort: 3000
