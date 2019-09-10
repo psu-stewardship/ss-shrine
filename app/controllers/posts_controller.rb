@@ -12,11 +12,11 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    redirect_to status_post_path(@post) unless PostStatus.new(@post).completed?
     s3 = Shrine.storages[:store]
     file_data = JSON.parse(@post.file_data)
     @image_url = s3.url(file_data['id'], expires_in: 30)
   end
-
 
   # GET /posts/new
   def new
@@ -68,6 +68,16 @@ class PostsController < ApplicationController
 
   def status
     @status = PostStatus.new(@post)
+    respond_to do |format|
+      format.html do
+        if request.xhr?
+          render partial: 'status', object: @status
+        elsif @status.completed?
+          redirect_to @post
+        end
+      end
+      format.json
+    end
   end
 
   private
