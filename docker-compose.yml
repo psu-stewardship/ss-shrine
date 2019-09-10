@@ -1,5 +1,12 @@
 version: '3.2'
 services:
+  redis:
+    image: redis:5.0.5
+    command: redis-server --requirepass redispassword
+    volumes:
+    - redis-data:/data
+    ports:
+    - "6379:6379"
   minio:
     command: '--compat server --address ":9001" /data'
     environment:
@@ -22,9 +29,26 @@ services:
     - "5432:5432"
     volumes:
     - db-data:/var/lib/postgresql/data
+  sidekiq:
+    env_file: s3.env
+    environment:
+      REDIS_HOST: redis
+      REDIS_PASSWORD: redispassword
+      RAILS_SERVE_STATIC_FILES: "true"
+      RAILS_ENV: development
+      RAILS_LOG_TO_STDOUT: "true"
+      POSTGRES_USER: shrinedemo
+      POSTGRES_HOST: db
+      POSTGRES_DB: shrinedemo
+      POSTGRES_PASSWORD: shrinedemo
+    build: .
+    command: >
+      sh -c "bundle exec sidekiq"
   web:
     env_file: s3.env
     environment:
+      REDIS_HOST: redis
+      REDIS_PASSWORD: redispassword
       RAILS_SERVE_STATIC_FILES: "true"
       RAILS_ENV: development
       RAILS_LOG_TO_STDOUT: "true"
@@ -49,5 +73,6 @@ services:
     - db
 
 volumes:
+  redis-data:
   minio:
   db-data:
