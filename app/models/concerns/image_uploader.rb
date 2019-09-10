@@ -7,7 +7,6 @@ require 'tempfile'
 
 class ImageUploader < Shrine
   plugin :derivatives, storage: :derivatives
-  plugin :add_metadata
   plugin :backgrounding
   plugin :determine_mime_type, analyzer: :marcel
 
@@ -45,16 +44,6 @@ class ImageUploader < Shrine
         service: nil,
         thumbnail: nil
       }
-    end
-  end
-
-  add_metadata :exif do |io, context|
-    if context[:derivative].blank?
-      Shrine.with_file(io) do |file|
-        MiniMagick::Image.new(file.path).exif
-      rescue MiniMagick::Error
-        Rails.logger.warn("#{file.path} is not a valid image")
-      end
     end
   end
 end
