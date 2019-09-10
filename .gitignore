@@ -37,3 +37,4 @@ s3.env
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+k8s/sec.yaml

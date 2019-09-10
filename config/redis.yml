@@ -1,0 +1,12 @@
+default: &default
+  host: <%= ENV.fetch("REDIS_HOST",  "localhost" ) %>
+  port: <%= ENV.fetch("REDIS_PORT",  6379 )  %>
+  timeout: <%= ENV.fetch("REDIS_TIMEOUT", 1000 ) %>
+  password: <%= ENV.fetch("REDIS_PASSWORD", nil) %>
+
+development:
+  <<: *default
+test:
+  <<: *default
+production:
+  <<: *default  

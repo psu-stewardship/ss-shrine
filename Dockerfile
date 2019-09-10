@@ -17,9 +17,11 @@ RUN . $NVM_DIR/nvm.sh \
     && nvm alias default $NODE_VERSION \
     && nvm use default
 
-
+RUN npm install -g yarn
 
 COPY Gemfile Gemfile.lock /app/
+COPY package.json yarn.lock /app/
+RUN yarn
 
 RUN gem install bundler
 
@@ -27,5 +29,7 @@ RUN bundle package --all
 RUN bundle install 
 
 COPY . /app
+
+RUN aws_bucket=bucket aws_access_key_id=key aws_secret_access_key=access aws_region=us-east-1 rails assets:precompile
 
 CMD ["./entrypoint.sh"]
