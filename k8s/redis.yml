@@ -1,0 +1,79 @@
+# Source: redis/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ss-shrine-redis
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-0.2.1
+    app.kubernetes.io/instance: ss-shrine-redis
+    app.kubernetes.io/managed-by: Tiller
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: redis
+      protocol: TCP
+      name: redis
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: ss-shrine-redis
+---
+# Source: redis/templates/statefulset.yaml
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: ss-shrine-redis
+  labels:
+    app.kubernetes.io/name: redis
+    helm.sh/chart: redis-0.2.1
+    # app.kubernetes.io/instance: ss-shrine-redis
+    app.kubernetes.io/managed-by: Tiller
+spec:
+  serviceName: ss-shrine-redis
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      # app.kubernetes.io/instance: ss-shrine-redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+        app.kubernetes.io/instance: ss-shrine-redis
+    spec:
+      volumes:
+      containers:
+        - name: redis
+          image: "redis:5.0.5"
+          command:
+          - /bin/bash
+          - -c
+          - |
+            ARGS=()
+            redis_password=${REDIS_PASSWORD}
+            if [ ! -z $redis_password ]; then
+            ARGS+=("--requirepass" "$redis_password")
+            fi
+            redis-server "${ARGS[@]}"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          envFrom:
+          - secretRef:
+              name: ss-shrine
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {}
+
+      serviceAccountName: "ss-shrine-redis"

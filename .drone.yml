@@ -28,9 +28,11 @@ steps:
       - pull_request
   commands:
   - 'sed -i "s/image:.*/image: harbor.dsrd.libraries.psu.edu\\/library\\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/deployment.yml'
+  - 'sed -i "s/image:.*/image: harbor.dsrd.libraries.psu.edu\\/library\\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/sidekiq.yml'
   - git config user.email "drone@drone2test.vmhost.psu.edu"
   - git config user.name "DroneCI"
   - git add k8s/deployment.yml
+  - git add k8s/sidekiq.yml
   - git commit -m "[skip ci] adds $DRONE_BUILD_NUMBER"
   - git push -u origin $DRONE_BRANCH
 
