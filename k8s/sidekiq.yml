@@ -27,7 +27,7 @@ spec:
         - secretRef:
             name: ss-shrine
         imagePullPolicy: Always
-        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:51
+        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:54
         commands: ["sh"]
         args: ["-c", "bundle", "exec", "sidekiq"]
         ports:
