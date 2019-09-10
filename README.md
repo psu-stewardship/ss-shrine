@@ -31,7 +31,7 @@ docker-compose up -d
 ```
 * Local Development (OS X) - Dependancies Only
 ```
-docker-compose up db minio -d 
+docker-compose up db minio sidekiq -d 
 rails s
 
 ```
