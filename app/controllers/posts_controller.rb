@@ -14,8 +14,7 @@ class PostsController < ApplicationController
   def show
     redirect_to status_post_path(@post) unless PostStatus.new(@post).completed?
     s3 = Shrine.storages[:store]
-    file_data = JSON.parse(@post.file_data)
-    @image_url = s3.url(file_data['id'], expires_in: 30)
+    @image_url = s3.url(@post.file_data['id'], expires_in: 30)
   end
 
   # GET /posts/new

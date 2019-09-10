@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2019_09_06_144120) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "file_data"
+    t.jsonb "file_data"
   end
 
   create_table "works", force: :cascade do |t|
