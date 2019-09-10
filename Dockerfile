@@ -17,6 +17,11 @@ RUN . $NVM_DIR/nvm.sh \
     && nvm alias default $NODE_VERSION \
     && nvm use default
 
+# Install system deps
+RUN apt-get update && \
+    apt-get install ffmpeg -y 
+
+
 RUN npm install -g yarn
 
 COPY Gemfile Gemfile.lock /app/
