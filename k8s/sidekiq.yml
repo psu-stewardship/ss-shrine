@@ -28,7 +28,7 @@ spec:
             name: ss-shrine
         imagePullPolicy: Always
         command: ["sh"]
-        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:54
+        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:57
         args: ["-c", "bundle", "exec", "sidekiq"]
         ports:
         - containerPort: 3000
