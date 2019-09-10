@@ -21,7 +21,6 @@ class ImageUploader < Shrine
     }
   rescue
     Rails.logger.warn("#{original} is not an image. skipping derivatives_proccessor")
-    Hash.new()
   end
 
   add_metadata :exif do |io, context|
