@@ -1,13 +1,12 @@
-# README
+# Scholarsphere Shrine
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is just a test app that we're using to test using Shrine.
 
-Things you may want to cover:
+## Sidekiq
 
-* Ruby version
+In another terminal window:
 
-* System dependencies
+    bundle exec sidekiq
 
 * Configuration
 
