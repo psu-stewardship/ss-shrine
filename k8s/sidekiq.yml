@@ -32,7 +32,7 @@ spec:
           - -c
           - |
             bundle exec sidekiq
-        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:93
+        image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:94
         ports:
         - containerPort: 3000
         # livenessProbe:
