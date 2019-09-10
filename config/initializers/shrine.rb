@@ -20,8 +20,8 @@ end
 
 Shrine.storages = {
   cache: Shrine::Storage::S3.new(prefix: 'cache', **s3_options),
-  derivatives: Shrine::Storage::S3.new(prefix: 'derivatives', **s3_options)
   ::PROMOTION_LOCATION.to_sym => Shrine::Storage::S3.new(**s3_options),
+  derivatives: Shrine::Storage::S3.new(prefix: 'derivatives', **s3_options),
 }
 
 Shrine.plugin :activerecord
@@ -34,8 +34,8 @@ Shrine.plugin :presign_endpoint, presign_options: -> (request) {
   type     = request.params["type"]
 
   {
-    content_disposition:    "inline; filename=\"#{filename}\"", # set download filename
-    content_type:           type,                               # set content type (defaults to "application/octet-stream")
-    content_length_range:   0..(200000*1024*1024),                  # limit upload size to 10 MB
+    content_disposition:    "inline; filename=\"#{filename}\"", 
+    content_type:           type,                               
+    content_length_range:   0..(200000*1024*1024),                
   }
 }
