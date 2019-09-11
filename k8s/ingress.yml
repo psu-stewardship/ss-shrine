@@ -8,11 +8,11 @@ metadata:
     ref: develop
 spec:
   tls:
-    - secretName: ss-shrine-dsrd-libraries-psu-edu
+    - secretName: __FQDN__
       hosts:
-        - ss-shrine.dsrd.libraries.psu.edu
+        - __FQDN__
   rules:
-    - host: ss-shrine.dsrd.libraries.psu.edu
+    - host: __FQDN__
       http:
         paths:
           - path: /

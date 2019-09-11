@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -5,7 +6,6 @@ metadata:
     app.kubernetes.io/instance: ss-shrine
     app.kubernetes.io/name: postgres
   name: ss-srhine-pg
-  namespace: ss-shrine
 spec:
   podManagementPolicy: OrderedReady
   replicas: 1
@@ -62,7 +62,6 @@ metadata:
     app.kubernetes.io/instance: ss-shrine
     app.kubernetes.io/name: postgres
   name: ss-shrine-pg
-  namespace: ss-shrine
 spec:
   ports:
   - name: postgres
