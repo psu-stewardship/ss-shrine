@@ -26,15 +26,4 @@ Shrine.storages = {
 Shrine.plugin :activerecord
 Shrine.plugin :cached_attachment_data
 Shrine.plugin :restore_cached_data
-
-Shrine.plugin :presign_endpoint, presign_options: ->(request) {
-  # Uppy will send the "filename" and "type" query parameters
-  filename = request.params['filename']
-  type     = request.params['type']
-
-  {
-    content_disposition: "inline; filename=\"#{filename}\"",
-    content_type: type,
-    content_length_range: 0..(200000 * 1024 * 1024)
-  }
-}
+Shrine.plugin :uppy_s3_multipart

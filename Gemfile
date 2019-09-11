@@ -20,6 +20,7 @@ gem 'shrine', '~> 3.0.0.beta'
 gem 'sidekiq'
 gem 'streamio-ffmpeg'
 gem 'uglifier', '>= 1.3.0'
+gem 'uppy-s3_multipart', '~> 0.3'
 gem 'webpacker', '~> 4.x'
 
 group :development, :test do
