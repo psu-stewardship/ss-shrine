@@ -11,5 +11,5 @@ Rails.application.routes.draw do
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  mount Shrine.presign_endpoint(:cache) => '/s3/params'
+  mount Shrine.uppy_s3_multipart(:cache) => '/s3/multipart'
 end
