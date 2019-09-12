@@ -7,7 +7,12 @@ steps:
   image: docker
   when:
     branch:
-    - master
+      exclude:
+        - skip-ci*
+    event:
+      exclude:
+      - pull_request
+      - tag
   environment:
     SSH_PRIVATE_KEY:
       from_secret: SSH_PRIVATE_KEY
@@ -18,7 +23,8 @@ steps:
     - docker login -u 'robot$drone' -p $DOCKER_PASSWORD harbor.dsrd.libraries.psu.edu
     - docker build -t harbor.dsrd.libraries.psu.edu/library/ss-shrine:$DRONE_BUILD_NUMBER . 
     - docker tag harbor.dsrd.libraries.psu.edu/library/ss-shrine:$DRONE_BUILD_NUMBER harbor.dsrd.libraries.psu.edu/library/ss-shrine:ci
-    - docker push harbor.dsrd.libraries.psu.edu/library/ss-shrine:$DRONE_BUILD_NUMBER 
+    - docker tag harbor.dsrd.libraries.psu.edu/library/ss-shrine:$DRONE_BUILD_NUMBER harbor.dsrd.libraries.psu.edu/library/ss-shrine:$DRONE_COMMIT_SHA
+    - docker push harbor.dsrd.libraries.psu.edu/library/ss-shrine
   volumes:
   - name: docker-sock
     path: /var/run/host.sock
@@ -27,23 +33,30 @@ steps:
   image: alpine/git
   when:
     branch:
-    - master
+      exclude:
+        - skip-ci*
+    event:
+      exclude:
+      - pull_request
+      - tag
   commands:
-  - 'sed -i "s/image:.*/image: harbor.dsrd.libraries.psu.edu\\/library\\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/deployment.yml'
-  - 'sed -i "s/image:.*/image: harbor.dsrd.libraries.psu.edu\\/library\\/ss-shrine:$DRONE_BUILD_NUMBER/g" k8s/sidekiq.yml'
   - git config user.email "drone@drone2test.vmhost.psu.edu"
   - git config user.name "DroneCI"
-  - git add k8s/deployment.yml
-  - git add k8s/sidekiq.yml
-  - git commit -m "[skip ci] adds $DRONE_BUILD_NUMBER"
-  - git push -u origin $DRONE_BRANCH
+  - sluggified=$(echo $DRONE_BRANCH | sed -e 's/[^[:alnum:]]/-/g' | tr -s '-' | tr A-Z a-z )
+  - git tag -f $sluggified $DRONE_COMMIT_SHA 
+  - git push --tags --force
 
 services:
 - name: postgres
   image: postgres:10
   when:
     branch:
-    - master
+      exclude:
+        - skip-ci*
+    event:
+      exclude:
+      - pull_request
+      - tag
   environment:
     POSTGRES_PASSWORD: ss-shrine-test
     POSTGRES_USER: ss-shrine
