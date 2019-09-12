@@ -23,6 +23,6 @@ class PostStatus
   private
 
     def data
-      @data ||= post.json_file_data
+      @data ||= post.file_data
     end
 end
