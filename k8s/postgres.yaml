@@ -33,7 +33,6 @@ spec:
           protocol: TCP
         resources: {}
         volumeMounts:
-          name: shared-data
         - mountPath: /var/lib/postgresql/data
           name: data
   volumeClaimTemplates:
