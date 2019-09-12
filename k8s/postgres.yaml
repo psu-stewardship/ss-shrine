@@ -32,28 +32,19 @@ spec:
           name: postgres
           protocol: TCP
         resources: {}
-        # volumeMounts:
-        # - mountPath: /secrets/
-        #   name: shared-data
-        # - mountPath: /var/lib/mysql
-        #   name: data
-  # volumeClaimTemplates:
-  # - metadata:
-  #     creationTimestamp: null
-  #     labels:
-  #       app: mariadb
-  #       component: master
-  #       heritage: Tiller
-  #       release: etda-workflow-develop
-  #     name: data
-  #   spec:
-  #     accessModes:
-  #     - ReadWriteOnce
-  #     resources:
-  #       requests:
-  #         storage: 8Gi
-  #     storageClassName: nfs-client
-  #     volumeMode: Filesystem
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 8Gi
+      storageClassName: nfs-client
 ---
 apiVersion: v1
 kind: Service
