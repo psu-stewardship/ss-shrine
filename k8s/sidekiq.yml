@@ -35,6 +35,7 @@ spec:
         image: harbor.dsrd.libraries.psu.edu/library/ss-shrine:__IMAGE_TAG__
         ports:
         - containerPort: 3000
+        - containerPort: 9359
         # livenessProbe:
         #   httpGet:
         #     path: /

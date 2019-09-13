@@ -22,6 +22,7 @@ gem 'streamio-ffmpeg'
 gem 'uglifier', '>= 1.3.0'
 gem 'uppy-s3_multipart', '~> 0.3'
 gem 'webpacker', '~> 4.x'
+gem 'sidekiq_prometheus'
 
 group :development, :test do
   gem 'byebug', platform: :mri
