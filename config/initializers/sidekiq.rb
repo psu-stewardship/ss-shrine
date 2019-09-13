@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-SidekiqPrometheus.setup
 
 redis_config = Rails.application.config_for(:redis)
 
