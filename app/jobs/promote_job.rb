@@ -6,6 +6,7 @@ class PromoteJob < ApplicationJob
   def perform(record:, name:, file_data:)
     attacher = Shrine::Attacher.retrieve(model: record, name: name.to_sym, file: file_data)
     record.file_derivatives!(:derivatives)
+    sleep 300
     attacher.atomic_promote
   rescue Shrine::AttachmentChanged, ActiveRecord::RecordNotFound
   end
