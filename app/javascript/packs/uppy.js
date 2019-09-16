@@ -2,11 +2,9 @@ import Uppy from '@uppy/core'
 import AwsS3Multipart from '@uppy/aws-s3-multipart'
 import StatusBar from '@uppy/status-bar'
 import FileInput from '@uppy/file-input'
+import Dashboard from '@uppy/dashboard'
 
 function fileUpload(fileInput) {
-    var imagePreview = document.querySelector('.upload-preview')
-
-
     fileInput.style.display = 'none' // uppy will add its own file input
 
     var uppy = Uppy({
@@ -14,18 +12,11 @@ function fileUpload(fileInput) {
         autoProceed: true,
         allowMultipleUploads: false,
       })
-      .use(FileInput, {
-        target: fileInput.parentNode,
-        pretty: false,
+      .use(Dashboard, {
+        id: 'Dashboard',
+        target: 'body',
+        inline: 'true'
       })
-      .use(StatusBar, {
-        target: imagePreview.parentNode,
-        hideAfterFinish: false,
-        showProgressDetails: true,
-      })
-    //   .use(Uppy.ThumbnailGenerator, {
-    //     thumbnailWidth: 400,
-    //   })
 
     uppy.use(AwsS3Multipart, {
       companionUrl: '/',
@@ -48,10 +39,6 @@ function fileUpload(fileInput) {
       var hiddenInput = fileInput.parentNode.querySelector('.upload-hidden')
       hiddenInput.value = uploadedFileData
     })
-
-//     uppy.on('thumbnail:generated', function (file, preview) {
-//       imagePreview.src = preview
-//     })
 
     return uppy
   }

@@ -9,7 +9,7 @@ class PostStatus
   end
 
   def completed?
-    promoted? && derived?
+    promoted?
   end
 
   def promoted?
