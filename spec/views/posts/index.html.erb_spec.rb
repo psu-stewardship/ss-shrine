@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe 'posts/index', type: :view do
   before do
     assign(:posts, [
-             Post.create!,
-             Post.create!
+             Post.create!(album: Album.create),
+             Post.create!(album: Album.create)
            ])
   end
 

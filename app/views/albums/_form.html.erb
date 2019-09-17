@@ -1,0 +1,22 @@
+<%= form_with(model: album, local: true) do |form| %>
+  <% if album.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(album.errors.count, "error") %> prohibited this album from being saved:</h2>
+
+      <ul>
+      <% album.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.text_field :title %>
+
+  <div data-controller="uppy">
+  </div>
+
+  <div class="upload-submit">
+    <%= form.submit %>
+  </div>
+<% end %>

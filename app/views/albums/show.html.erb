@@ -1,0 +1,10 @@
+<h1><%= @album.title %></h1>
+<p id="notice"><%= notice %></p>
+
+<h2>Posts</h2>
+<% @album.posts.each do |post| %>
+  <h3><%= post.file_data.fetch(:metadata, {}).fetch(:filename, "[na]") %></h3>
+<% end %>
+
+<%= link_to 'Edit', edit_album_path(@album) %> |
+<%= link_to 'Back', albums_path %>

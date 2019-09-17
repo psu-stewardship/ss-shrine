@@ -12,10 +12,6 @@
   <% end %>
 
   <%= form.text_field :title %>
-  <%= form.hidden_field :file, value: post.cached_file_data, class: "upload-hidden" %>
-  <%= form.file_field :file, class: "upload-file" %>
-
-  <img class="upload-preview">
 
   <div class="actions">
     <%= form.submit 'submit', class: "upload-submit" %>
