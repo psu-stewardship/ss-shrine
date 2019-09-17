@@ -4,47 +4,50 @@ import StatusBar from '@uppy/status-bar'
 import FileInput from '@uppy/file-input'
 import Dashboard from '@uppy/dashboard'
 
-function fileUpload(fileInput) {
-    fileInput.style.display = 'none' // uppy will add its own file input
 
-    var uppy = Uppy({
-        id: fileInput.id,
-        autoProceed: true,
-        allowMultipleUploads: false,
-      })
-      .use(Dashboard, {
-        id: 'Dashboard',
-        target: 'body',
-        inline: 'true'
-      })
 
-    uppy.use(AwsS3Multipart, {
-      companionUrl: '/',
-    })
-
-    uppy.on('upload-success', function (file, response) {
-      document.querySelector('.upload-submit').style.visibility='visible';
-      // construct uploaded file data in the format that Shrine expects
-      var uploadedFileData = JSON.stringify({
-        id: response.uploadURL.match(/\/cache\/([^\?]+)/)[1],
-        storage: 'cache',
-        metadata: {
-          size:      file.size,
-          filename:  file.name,
-          mime_type: file.type,
-        }
-      })
-
-      // set hidden field value to the uploaded file data so that it's submitted with the form as the attachment
-      var hiddenInput = fileInput.parentNode.querySelector('.upload-hidden')
-      hiddenInput.value = uploadedFileData
-    })
-
-    return uppy
-  }
-
-  document.querySelector('.upload-submit').style.visibility='hidden';
-
-  document.querySelectorAll('.upload-file').forEach(function (fileInput) {
-    fileUpload(fileInput)
+function hiddenFileInput(success) {
+  var uploadedFileData = JSON.stringify({
+    id: success.uploadURL.match(/\/cache\/([^\?]+)/)[1],
+    storage: 'cache',
+    metadata: {
+      size:      success.data.size,
+      filename:  success.data.name,
+      mime_type: success.data.type,
+    }
   })
+
+  var input = document.createElement("input")
+  input.setAttribute("type", "hidden")
+  input.setAttribute("name", "file[]")
+  input.setAttribute("value", uploadedFileData)
+
+  return input
+}
+
+function fileUpload() {
+  var uppy = Uppy({
+    id: 'someid',
+    autoProceed: true,
+    allowMultipleUploads: true,
+  })
+  .use(Dashboard, {
+    id: 'dashboard',
+    target: 'body',
+    inline: 'true',
+    showProgressDetails: true
+  })
+  .use(AwsS3Multipart, {
+    companionUrl: '/',
+  })
+
+  uppy.on('complete', result => {
+    document.querySelector('.upload-submit').style.visibility='visible'
+    result.successful.forEach(function(success) {
+      document.getElementsByTagName('form')[0].appendChild(hiddenFileInput(success))
+    })
+  })
+}
+
+document.querySelector('.upload-submit').style.visibility='hidden'
+fileUpload()

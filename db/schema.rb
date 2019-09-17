@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_06_144120) do
+ActiveRecord::Schema.define(version: 2019_09_17_015406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "albums", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "members", force: :cascade do |t|
     t.string "original_filename"
@@ -29,6 +35,8 @@ ActiveRecord::Schema.define(version: 2019_09_06_144120) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "file_data"
+    t.bigint "album_id"
+    t.index ["album_id"], name: "index_posts_on_album_id"
   end
 
   create_table "works", force: :cascade do |t|
@@ -39,4 +47,5 @@ ActiveRecord::Schema.define(version: 2019_09_06_144120) do
   end
 
   add_foreign_key "members", "works"
+  add_foreign_key "posts", "albums"
 end

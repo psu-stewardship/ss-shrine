@@ -3,6 +3,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :albums
   mount Sidekiq::Web => '/sidekiq'
 
   resources :posts do

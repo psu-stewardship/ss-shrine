@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe 'posts/show', type: :view do
+RSpec.describe 'albums/show', type: :view do
   before do
-    @post = assign(:post, Post.create!(album: Album.create))
+    @album = assign(:album, Album.create!)
   end
 
   it 'renders attributes in <p>' do

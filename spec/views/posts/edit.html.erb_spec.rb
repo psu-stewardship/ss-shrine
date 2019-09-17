@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'posts/edit', type: :view do
   before do
-    @post = assign(:post, Post.create!)
+    @post = assign(:post, Post.create!(album: Album.create))
   end
 
   it 'renders the edit post form' do
