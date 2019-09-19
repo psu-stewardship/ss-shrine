@@ -27,6 +27,23 @@ steps:
   - name: docker-sock
     path: /var/run/host.sock
 
+- name: update ArgoCD (prod)
+  image: alpine/git
+  environment:
+    CONFIG_ENV: dev
+  when:
+    branch:
+      include:
+        - master
+    event:
+      exclude:
+      - pull_request
+      - tag
+  commands:
+    - git clone https://github.com/psu-stewardship/ss-shrine-config.git
+    - cd ss-shrine-config
+    - ./generate_application.sh
+
 - name: update ArgoCD
   image: alpine/git
   environment:
@@ -34,6 +51,7 @@ steps:
   when:
     branch:
       exclude:
+        - master
         - skip-ci*
     event:
       exclude:
