@@ -30,7 +30,7 @@ steps:
 - name: update ArgoCD (prod)
   image: alpine/git
   environment:
-    CONFIG_ENV: dev
+    CONFIG_ENV: prod
   when:
     branch:
       include:
