@@ -1,9 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h1><%= @post.title %></h1>
+<h1><%= @post.display_name %></h1>
 
 <%= link_to 'Show JSON', post_path(@post, format: :json) %> |
 <%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
-
-<%# link_to "Download", @image_url%>
+<% if @image_url %>
+  <%= link_to "Download", @image_url%> |
+<% end %>
+<%= link_to 'Back', album_path(@post.album) %>
