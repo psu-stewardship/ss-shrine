@@ -4,10 +4,10 @@
 
 <div id="status"
      data-controller="status"
-     data-status-url="<%= status_post_path(@post, format: :html) %>"
+     data-status-url="<%= status_album_post_path(@post, album_id: params[:album_id], format: :html) %>"
      data-status-refresh-interval="1000">
      <%= render 'status', status: @status %>
 </div>
 
-<%= link_to 'Back', posts_path %>
+<%= link_to 'Back', album_path(@post.album) %>
 

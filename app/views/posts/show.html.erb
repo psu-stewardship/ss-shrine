@@ -2,8 +2,23 @@
 
 <h1><%= @post.display_name %></h1>
 
-<%= link_to 'Show JSON', post_path(@post, format: :json) %> |
-<%= link_to 'Edit', edit_post_path(@post) %> |
+<h2>Versions</h2>
+<table>
+  <tr><th>Title</th><th>File Data</th><th>Updated</th> </tr>
+  <% @post.versions.each do |post_version| %>
+    <% reified_post = post_version.reify %>
+    <% if reified_post %>
+      <tr>
+        <td><%= reified_post.title %></td>
+        <td><%= reified_post.file_data %></td>
+        <td><%= reified_post.updated_at %></td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<%= link_to 'Show JSON', album_post_path(@post, album_id: @post.album, format: :json) %> |
+<%= link_to 'Edit', edit_album_post_path(@post, album_id: @post.album) %> |
 <% if @image_url %>
   <%= link_to "Download", @image_url%> |
 <% end %>

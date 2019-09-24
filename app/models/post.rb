@@ -5,6 +5,8 @@ class Post < ApplicationRecord
 
   belongs_to :album
 
+  has_paper_trail
+
   def file_data
     HashWithIndifferentAccess.new(super)
   end

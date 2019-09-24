@@ -4,7 +4,7 @@
 <h2>Posts</h2>
 <% @album.posts.each do |post| %>
   <ul>
-    <%= link_to post.display_name, post_path(post) %></li>
+    <%= link_to post.display_name, album_post_path(post, album_id: params[:id]) %></li>
   </ul>
 <% end %>
 

@@ -12,7 +12,7 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
-    redirect_to status_post_path(@post) unless PostStatus.new(@post).completed?
+    redirect_to status_album_post_path(@post, album_id: params[:album_id]) unless PostStatus.new(@post).completed?
     s3 = Shrine.storages[:store]
     @image_url = s3.url(@post.file_data['id'], expires_in: 30)
   end
@@ -32,7 +32,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.html { redirect_to [@post.album, @post], notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+        format.html { redirect_to [@post.album, @post], notice: 'Post was successfully updated.' }
         format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit }
@@ -60,7 +60,7 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to album_url(params[:ablum_id]), notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

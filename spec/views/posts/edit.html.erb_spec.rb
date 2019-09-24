@@ -10,7 +10,7 @@ RSpec.describe 'posts/edit', type: :view do
   it 'renders the edit post form' do
     render
 
-    assert_select 'form[action=?][method=?]', post_path(@post), 'post' do
+    assert_select 'form[action=?][method=?]', album_post_path(@post, album_id: @post.album), 'post' do
     end
   end
 end
