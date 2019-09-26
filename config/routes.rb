@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   mount Shrine.uppy_s3_multipart(:cache) => '/s3/multipart'
+
+  mount OkComputer::Engine, at: "/healthcheck"
 end

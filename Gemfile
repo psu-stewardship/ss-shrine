@@ -52,3 +52,5 @@ group :test do
   gem 'shoulda-matchers', '~> 3.1'
   gem 'webdrivers'
 end
+
+gem "okcomputer", "~> 1.17"
