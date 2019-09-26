@@ -75,6 +75,13 @@ steps:
     - cd ss-shrine-config
     - ./generate_application.sh
 
+- name: Sync the ArgoCD application
+  image: alpine/git
+  commands:
+  - curl -sSL -o /usr/local/bin/argocd https://${ARGOCD_SERVER}/download/argocd-linux-amd64
+  - argocd app sync ss-shrine-apps
+  - argocd app wait ss-shrine-apps
+
 services:
 - name: postgres
   image: postgres:10
