@@ -78,7 +78,7 @@ steps:
 - name: Sync the ArgoCD application
   image: dosowisko/curl
   commands:
-  - curl -sSL -o /usr/local/bin/argocd https://${ARGOCD_SERVER}/download/argocd-linux-amd64
+  - curl -sSL -o /usr/local/bin/argocd https://argocd.dsrd.libraries.psu.edu/download/argocd-linux-amd64
   - argocd app sync ss-shrine-apps
   - argocd app wait ss-shrine-apps
 
