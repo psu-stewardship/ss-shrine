@@ -76,7 +76,7 @@ steps:
     - ./generate_application.sh
 
 - name: Sync the ArgoCD application
-  image: alpine/git
+  image: dosowisko/curl
   commands:
   - curl -sSL -o /usr/local/bin/argocd https://${ARGOCD_SERVER}/download/argocd-linux-amd64
   - argocd app sync ss-shrine-apps
