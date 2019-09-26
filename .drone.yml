@@ -44,15 +44,28 @@ steps:
     - cd ss-shrine-config
     - ./generate_application.sh
 
-- name: update ArgoCD
+- name: update ArgoCD (qa)
+  image: alpine/git
+  environment:
+    CONFIG_ENV: qa
+  when:
+    event:
+      include:
+      - tag
+  commands:
+    - git clone https://github.com/psu-stewardship/ss-shrine-config.git
+    - cd ss-shrine-config
+    - ./generate_application.sh
+
+- name: update ArgoCD (dev)
   image: alpine/git
   environment:
     CONFIG_ENV: dev
   when:
     branch:
-      exclude:
-        - master
-        - skip-ci*
+      include:
+        - preview/*
+        - develop
     event:
       exclude:
       - pull_request
