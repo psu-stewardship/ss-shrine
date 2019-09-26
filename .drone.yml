@@ -78,9 +78,9 @@ steps:
 - name: Sync the ArgoCD application
   image: dosowisko/curl
   commands:
-  - curl -ksSL -o /usr/local/bin/argocd https://argocd.dsrd.libraries.psu.edu/download/argocd-linux-amd64
-  - argocd app sync ss-shrine-apps
-  - argocd app wait ss-shrine-apps
+  - curl -ksSL -o argocd https://argocd.dsrd.libraries.psu.edu/download/argocd-linux-amd64
+  - ./argocd app sync ss-shrine-apps
+  - ./argocd app wait ss-shrine-apps
 
 services:
 - name: postgres
