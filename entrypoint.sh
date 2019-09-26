@@ -1,6 +1,28 @@
 #!/bin/bash
+set -e 
 
-rails db:create
-rails db:migrate
+# Vault init container will drop the token in /etc/vault/token; alternatively we can set the VAULT_TOKEN env variable 
+if [ -f /vault/token ]; then
+    export VAULT_TOKEN=$(cat /vault/token)
+fi
 
-rails s -b '0.0.0.0'
+function start_envconsul() {
+    set -u 
+    envconsul \
+        -vault-addr=${VAULT_ADDR} \
+        -secret=${VAULT_PATH} \
+        -vault-token=${VAULT_TOKEN} \
+        -no-prefix=true \
+        -vault-renew-token=false \
+        -once \
+        -exec='bash start.sh'
+}
+
+
+if [ -n "${VAULT_TOKEN}" ]; then
+    echo "have token. starting envconsul"
+    start_envconsul
+else
+    echo "starting the app"
+    bash start.sh
+fi

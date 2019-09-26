@@ -12,6 +12,11 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | b
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
+### Envconsul
+RUN curl -Lo /tmp/envconsul.zip https://releases.hashicorp.com/envconsul/0.9.0/envconsul_0.9.0_linux_amd64.zip && \
+    unzip /tmp/envconsul.zip -d /bin && \
+    rm /tmp/envconsul.zip
+
 RUN . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
@@ -35,6 +40,6 @@ RUN bundle install
 
 COPY . /app
 
-RUN aws_bucket=bucket aws_access_key_id=key aws_secret_access_key=access aws_region=us-east-1 rails assets:precompile
+RUN RAILS_ENV=production SECRET_KEY_BASE=$(bundle exec rails secret) aws_bucket=bucket aws_access_key_id=key aws_secret_access_key=access aws_region=us-east-1 rails assets:precompile
 
 CMD ["./entrypoint.sh"]
