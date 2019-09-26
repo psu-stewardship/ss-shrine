@@ -83,7 +83,7 @@ steps:
     ARGOCD_SERVER:
       from_secret: ARGOCD_SERVER
   commands:
-  - curl -ksSL -o argocd https://${ARGOCD_SERVER}/download/argocd-linux-amd64
+  - curl -ksSL -o argocd https://argocd.dsrd.libraries.psu.edu/download/argocd-linux-amd64
   - chmod +x argocd
   - ./argocd --insecure app sync ss-shrine-apps
   - ./argocd --insecure app wait ss-shrine-apps
