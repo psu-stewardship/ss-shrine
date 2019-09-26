@@ -38,3 +38,4 @@ s3.env
 yarn-debug.log*
 .yarn-integrity
 k8s/sec.yaml
+.local
