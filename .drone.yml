@@ -77,11 +77,16 @@ steps:
 
 - name: Sync the ArgoCD application
   image: dosowisko/curl
+  environment:
+    ARGOCD_AUTH_TOKEN:
+      from_secret: ARGOCD_AUTH_TOKEN
+    ARGOCD_SERVER:
+      from_secret: ARGOCD_SERVER
   commands:
-  - curl -ksSL -o argocd https://argocd.dsrd.libraries.psu.edu/download/argocd-linux-amd64
+  - curl -ksSL -o argocd https://${ARGOCD_SERVER}/download/argocd-linux-amd64
   - chmod +x argocd
-  - ./argocd app sync ss-shrine-apps
-  - ./argocd app wait ss-shrine-apps
+  - ./argocd --insecure app sync ss-shrine-apps
+  - ./argocd --insecure app wait ss-shrine-apps
 
 services:
 - name: postgres
