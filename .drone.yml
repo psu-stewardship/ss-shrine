@@ -79,6 +79,7 @@ steps:
   image: dosowisko/curl
   commands:
   - curl -ksSL -o argocd https://argocd.dsrd.libraries.psu.edu/download/argocd-linux-amd64
+  - chmod +x argocd
   - ./argocd app sync ss-shrine-apps
   - ./argocd app wait ss-shrine-apps
 
